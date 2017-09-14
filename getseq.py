@@ -2,6 +2,7 @@ import requests
 import re
 from bs4 import BeautifulSoup
 
+# Class labels of matrix cells seem to indicate that each color represents an airport
 airportdict = {
 	"bru": "Brussels",
 	"gru": "Sao Paulo",
@@ -28,7 +29,6 @@ colordict = {
 	"pty": (128, 128, 128)
 }
 
-s = requests.session()
 
 def extract(result):
 	c = result.content
@@ -57,6 +57,7 @@ nexturl = "http://homes.soic.indiana.edu/rocha/academics/i501/blackbox/BlackBox.
 seq = []
 
 # Get initial
+s = requests.session()
 result = s.get(starturl.format(cycles))
 step, grid = extract(result)
 seq.append((step, grid))

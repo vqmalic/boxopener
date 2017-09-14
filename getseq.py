@@ -1,5 +1,6 @@
 import requests
 import re
+from clint.textui import progress
 from bs4 import BeautifulSoup
 
 # Class labels of matrix cells seem to indicate that each color represents an airport
@@ -29,6 +30,21 @@ colordict = {
 	"pty": (128, 128, 128)
 }
 
+# Let's assign numbers as IDs to colors for better numpy arrays
+
+iddict = {
+	"mex": 1,
+	"gru": 0,
+	"bru": 2,
+	"hkg": 3,
+	"icn": 4,
+	"jfk": 5,
+	"las": 6,
+	"lax": 7,
+	"lis": 8,
+	"pty": 9
+}
+
 
 def extract(result):
 	c = result.content
@@ -47,10 +63,11 @@ def extract(result):
 		for cell in cells:
 			label = cell['class'][0]
 			grid.append(label)
+	grid = [iddict[x] for x in grid]
 	return(step, grid)
 
 cycles = 1
-iterations = 100
+iterations = 1000
 starturl = "http://homes.soic.indiana.edu/rocha/academics/i501/blackbox/BlackBox.php?reset=1&cycles_input={}"
 nexturl = "http://homes.soic.indiana.edu/rocha/academics/i501/blackbox/BlackBox.php?cycles={}"
 
@@ -65,8 +82,9 @@ print(step)
 
 # Iterate
 
-for i in range(iterations):
-	result = s.get(nexturl.format(cycles))
-	step, grid = extract(result)
-	seq.append((step, grid))
-	print(step)
+with progress.Bar(expected_size=iterations) as bar:
+	for i in range(iterations):
+		result = s.get(nexturl.format(cycles))
+		step, grid = extract(result)
+		seq.append((step, grid))
+		bar.show(i)

@@ -88,3 +88,5 @@ with progress.Bar(expected_size=iterations) as bar:
 		step, grid = extract(result)
 		seq.append((step, grid))
 		bar.show(i)
+
+	

@@ -9,6 +9,7 @@ idna==2.6
 ipython==6.1.0
 ipython-genutils==0.2.0
 jedi==0.10.2
+lxml==3.8.0
 numpy==1.13.1
 pandas==0.20.3
 pexpect==4.2.1

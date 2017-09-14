@@ -1,7 +1,9 @@
 import requests
 import re
+import pandas as pd
 from clint.textui import progress
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 # Class labels of matrix cells seem to indicate that each color represents an airport
 airportdict = {
@@ -78,9 +80,10 @@ s = requests.session()
 result = s.get(starturl.format(cycles))
 step, grid = extract(result)
 seq.append((step, grid))
-print(step)
 
 # Iterate
+
+starttime = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
 
 with progress.Bar(expected_size=iterations) as bar:
 	for i in range(iterations):
@@ -89,4 +92,9 @@ with progress.Bar(expected_size=iterations) as bar:
 		seq.append((step, grid))
 		bar.show(i)
 
-	
+indices = [x[0] for x in seq]
+grids = [x[1] for x in seq]
+
+df = pd.DataFrame(grids, index=indices)
+
+df.to_pickle("runs/{}_iter{}.pkl".format(starttime, iterations))

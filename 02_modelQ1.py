@@ -31,3 +31,17 @@ data = []
 for row in range(q1.shape[0] - 1):
 	for col in range(q1.shape[1]):
 		data.append(makeDataPoint(row, col, 1))
+
+neighborcount = []
+for row in data:
+	bcount = row[0].count(0)
+	wcount = row[0].count(1)
+	x = row[1]
+	y = row[2]
+	if x == y:
+		state = "noswitch"
+	elif x == 0:
+		state = "towhite"
+	else:
+		state = "toblack"
+	neighborcount.append((bcount, wcount, state))

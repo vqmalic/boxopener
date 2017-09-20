@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-
-df = pd.read_pickle("runs/2017_09_17_13_39_18_iter10000.pkl")
+import matplotlib.pyplot as plt
+df = pd.read_pickle("runs/2017_09_19_13_50_45_iter50000.pkl")
 
 flips = []
 
@@ -15,11 +15,13 @@ flips = np.array(flips)
 winsize = 101
 win = np.convolve(flips, np.ones((winsize,)), mode="valid")
 
+
+plt.cla()
 plt.plot(np.arange(np.ceil(winsize/2), len(win) + np.ceil(winsize/2)), win)
 plt.title("Switches per Window, (window size = {})".format(winsize))
 plt.xlabel("Time (t)")
 plt.ylabel("Switches")
-plt.savefig("figures/switches_per_step_ALL.png")
+plt.savefig("figures/switches_ALL.png")
 
 
 # By quadrant
@@ -57,4 +59,4 @@ for i, ax in enumerate(axes.flatten()):
 	ax.set_title("Quadrant {}".format(i+1))
 
 plt.tight_layout()
-fig.show()
+fig.savefig("figures/switches_QUADRANTS.png")

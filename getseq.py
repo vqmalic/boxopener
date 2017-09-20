@@ -69,7 +69,7 @@ def extract(result):
 	return(step, grid)
 
 cycles = 1
-iterations = 10000
+iterations = 50000
 starturl = "http://homes.soic.indiana.edu/rocha/academics/i501/blackbox/BlackBox.php?reset=1&cycles_input={}"
 nexturl = "http://homes.soic.indiana.edu/rocha/academics/i501/blackbox/BlackBox.php?cycles={}"
 

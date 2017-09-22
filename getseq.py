@@ -68,33 +68,39 @@ def extract(result):
 	grid = [iddict[x] for x in grid]
 	return(step, grid)
 
-cycles = 1
-iterations = 50000
-starturl = "http://homes.soic.indiana.edu/rocha/academics/i501/blackbox/BlackBox.php?reset=1&cycles_input={}"
-nexturl = "http://homes.soic.indiana.edu/rocha/academics/i501/blackbox/BlackBox.php?cycles={}"
+no_runs = 10 # number of runs to get
+iterations = 10000 # number of iterations per run
+stepsize = 1 # stepsize 
 
-seq = []
+for i in range(10):
+	print(i+1)
+	cycles = stepsize
+	iterations = iterations
+	starturl = "http://homes.soic.indiana.edu/rocha/academics/i501/blackbox/BlackBox.php?reset=1&cycles_input={}"
+	nexturl = "http://homes.soic.indiana.edu/rocha/academics/i501/blackbox/BlackBox.php?cycles={}"
 
-# Get initial
-s = requests.session()
-result = s.get(starturl.format(cycles))
-step, grid = extract(result)
-seq.append((step, grid))
+	seq = []
 
-# Iterate
+	# Get initial
+	s = requests.session()
+	result = s.get(starturl.format(cycles))
+	step, grid = extract(result)
+	seq.append((step, grid))
 
-starttime = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+	# Iterate
 
-with progress.Bar(expected_size=iterations) as bar:
-	for i in range(iterations):
-		result = s.get(nexturl.format(cycles))
-		step, grid = extract(result)
-		seq.append((step, grid))
-		bar.show(i)
+	starttime = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
 
-indices = [x[0] for x in seq]
-grids = [x[1] for x in seq]
+	with progress.Bar(expected_size=iterations) as bar:
+		for i in range(iterations):
+			result = s.get(nexturl.format(cycles))
+			step, grid = extract(result)
+			seq.append((step, grid))
+			bar.show(i)
 
-df = pd.DataFrame(grids, index=indices)
+	indices = [x[0] for x in seq]
+	grids = [x[1] for x in seq]
 
-df.to_pickle("runs/{}_iter{}.pkl".format(starttime, iterations))
+	df = pd.DataFrame(grids, index=indices)
+
+	df.to_pickle("runs/{}_iter{}.pkl".format(starttime, iterations))

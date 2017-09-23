@@ -68,11 +68,11 @@ def extract(result):
 	grid = [iddict[x] for x in grid]
 	return(step, grid)
 
-no_runs = 10 # number of runs to get
+no_runs = 1 # number of runs to get
 iterations = 10000 # number of iterations per run
 stepsize = 1 # stepsize 
 
-for i in range(10):
+for i in range(no_runs):
 	print(i+1)
 	cycles = stepsize
 	iterations = iterations

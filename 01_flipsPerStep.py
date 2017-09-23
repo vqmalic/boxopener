@@ -61,9 +61,9 @@ for i, ax in enumerate(axes.flatten()):
 	ax.set_title("Quadrant {}".format(i+1))
 
 plt.tight_layout()
-fig.savefig("cumulativeswitches_quadrant.png")
+fig.savefig("figures/cumulativeswitches_quadrant.png")
 
-# do the same thing, but average it across all runs
+# do the same thing, but with ALL 20 runs
 
 paths = os.listdir("runs")
 runs = [pd.read_pickle("runs/{}".format(path)) for path in paths]
@@ -81,3 +81,17 @@ for counter, df in enumerate(runs):
 			flips.append(sum(thisrow != nextrow))
 		flips = np.array(flips)
 		qflips[i].append(np.cumsum(flips))
+
+plt.cla()
+fig, axes = plt.subplots(2, 2)
+
+for i, ax in enumerate(axes.flatten()):
+	flips = qflips[i]
+	for f in flips:
+		if len(f) == 10000:
+			ax.plot(f)
+	ax.set_title("Quadrant {}".format(i+1))
+plt.tight_layout()
+fig.savefig("figures/cumulativeswitches_quadrant_allruns.png")
+
+

@@ -1,5 +1,6 @@
 venv/
 runs/ 
+starts/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

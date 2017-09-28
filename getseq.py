@@ -35,16 +35,16 @@ colordict = {
 # Let's assign numbers as IDs to colors for better numpy arrays
 
 iddict = {
-	"mex": 1,
+	"mex": 9,
 	"gru": 0,
-	"bru": 2,
-	"hkg": 3,
-	"icn": 4,
-	"jfk": 5,
-	"las": 6,
-	"lax": 7,
-	"lis": 8,
-	"pty": 9
+	"bru": 6,
+	"hkg": 7,
+	"icn": 8,
+	"jfk": 2,
+	"las": 4,
+	"lax": 3,
+	"lis": 5,
+	"pty": 1
 }
 
 
